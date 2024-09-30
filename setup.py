@@ -7,7 +7,7 @@ setup(
     install_requires=[
         'numpy',
         'scipy',
-        'sklearn'
+        'scikit-learn'
     ],
     author='Beth Delaney',
     author_email='beth_delaney@outlook.com',
