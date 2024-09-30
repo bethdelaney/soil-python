@@ -8,6 +8,8 @@ setup(
         'numpy',
         'scipy',
         'scikit-learn'
+        'raseterio'
+        'matplotlib'
     ],
     author='Beth Delaney',
     author_email='beth_delaney@outlook.com',
