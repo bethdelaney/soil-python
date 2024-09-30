@@ -24,6 +24,8 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
     if pc < 1:
         explained_variance = np.cumsum(pca.explained_variance_ratio_)
         num_components = np.argmax(explained_variance >= pc) + 1
+        # Ensure we have at least 2 components
+        num_components = max(num_components, 2)
     else:
         num_components = int(pc)
     
@@ -35,12 +37,11 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
     # Step 2: Compute Mahalanobis distance to the center
     center = np.mean(X_scaled, axis=0)
     cov_matrix = np.cov(X_scaled, rowvar=False)
-
+    
     # Check the shape of the covariance matrix before computing the inverse
     print("Covariance matrix shape:", cov_matrix.shape)
     if cov_matrix.ndim != 2 or cov_matrix.shape[0] != cov_matrix.shape[1]:
         raise ValueError("Covariance matrix is not square or 2D.")
-    
     
     # Use the pseudoinverse to handle cases where the covariance matrix is singular
     inv_cov_matrix = np.linalg.inv(cov_matrix)
@@ -76,7 +77,7 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
     
     # Step 3: Compute leverage and optimize
     X_matrix = X_scaled
-    leverage = np.diag(X_matrix @ np.linalg.pinv(X_matrix.T @ X_matrix) @ X_matrix.T)
+    leverage = np.diag(X_matrix @ np.linalg.inv(X_matrix.T @ X_matrix) @ X_matrix.T)
     observed_leverage = [np.sum(leverage[selected]) for selected in all_selected_loops]
     theoretical_leverage = (np.sum(leverage) / len(leverage)) * np.array([len(selected) for selected in all_selected_loops])
     leverage_diff = np.array(observed_leverage) - theoretical_leverage
