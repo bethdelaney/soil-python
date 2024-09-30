@@ -5,6 +5,7 @@ Includes visualiation of PCA and extraction of GPS coordinates of those sample p
 
 
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from scipy.spatial import distance
 
