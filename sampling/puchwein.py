@@ -3,10 +3,9 @@ Module for applying the Puchwein Algorithm to spectral data to derive sample cal
 Includes visualiation of PCA and extraction of GPS coordinates of those sample points.
 """
 
-
+import rasterio
 import numpy as np
 import matplotlib.pyplot as plt
-import rasterio
 from sklearn.decomposition import PCA
 from scipy.spatial import distance
 
@@ -120,9 +119,6 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
             }
         }
 
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
-
 def plot_pca(X, selected_pixels, n_components=2):
     """
     Perform PCA on the dataset and plot the first two principal components.
@@ -161,7 +157,7 @@ def plot_pca(X, selected_pixels, n_components=2):
     # Show the plot
     plt.show()
 
-def get_coords(selected_pixels, image_path):
+def get_coordinates(selected_pixels, image_path):
     """
     Get the geographic coordinates (e.g., lat/lon) of the selected sample points.
     
