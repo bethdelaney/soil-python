@@ -1,12 +1,16 @@
+"""
+Module for applying the Puchwein Algorithm to spectral data to derive sample calibration points. 
+Includes visualiation of PCA and extraction of GPS coordinates of those sample points.
+"""
+
+
 import numpy as np
 from sklearn.decomposition import PCA
 from scipy.spatial import distance
 
-# Utility function to compute Mahalanobis distance
 def mahalanobis_distance(x, mean, inv_cov):
     return distance.mahalanobis(x, mean, inv_cov)
 
-# Main function to implement the Puchwein algorithm
 def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=False):
     # Ensure X is a 2D numpy array
     X = np.array(X)
@@ -117,7 +121,6 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
-# Utility function to plot PCA-transformed data
 def plot_pca(X, selected_pixels, n_components=2):
     """
     Perform PCA on the dataset and plot the first two principal components.
@@ -156,7 +159,6 @@ def plot_pca(X, selected_pixels, n_components=2):
     # Show the plot
     plt.show()
 
-# Utility function to retrieve geographic coordinates of selected sample points
 def get_sample_coordinates(selected_pixels, image_path):
     """
     Get the geographic coordinates (e.g., lat/lon) of the selected sample points.
