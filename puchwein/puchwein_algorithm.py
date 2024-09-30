@@ -113,3 +113,79 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
                 'leverage_diff': leverage_diff
             }
         }
+
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+# Utility function to plot PCA-transformed data
+def plot_pca(X, selected_pixels, n_components=2):
+    """
+    Perform PCA on the dataset and plot the first two principal components.
+    
+    Parameters:
+    - X: 2D numpy array of the dataset (pixels x spectral bands)
+    - selected_pixels: List or array of indices of selected samples
+    - n_components: Number of PCA components to compute (default is 2)
+    """
+    
+    # Step 1: Run PCA
+    pca = PCA(n_components=n_components)
+    X_transformed = pca.fit_transform(X)  # PCA-transformed data
+    
+    # Step 2: Reduce to the first two components for plotting
+    X_reduced = X_transformed[:, :2]  # Use the first two components (PC1 and PC2)
+    
+    # Step 3: Plot all samples
+    plt.scatter(X_reduced[:, 0], X_reduced[:, 1], color='gray', label='All Samples')
+    
+    # Step 4: Highlight the selected samples
+    X_selected = X_reduced[selected_pixels]
+    plt.scatter(X_selected[:, 0], X_selected[:, 1], color='red', label='Selected Samples')
+    
+    # Add labels and title
+    plt.xlabel('PC1')
+    plt.ylabel('PC2')
+    plt.title('PCA of Dataset with Selected Samples')
+    
+    # Add legend
+    plt.legend()
+    
+    # Display grid
+    plt.grid(True)
+    
+    # Show the plot
+    plt.show()
+
+# Utility function to retrieve geographic coordinates of selected sample points
+def get_sample_coordinates(selected_pixels, image_path):
+    """
+    Get the geographic coordinates (e.g., lat/lon) of the selected sample points.
+    
+    Parameters:
+    - selected_pixels: Indices of selected samples from the Puchwein algorithm (1D array).
+    - image_path: Path to the raster image from which the pixels were selected.
+    
+    Returns:
+    - coordinates: List of tuples with the geographic coordinates (e.g., lat, lon) of each selected pixel.
+    """
+    # Open the raster using rasterio to get the geotransform (mapping from pixel to geographic coordinates)
+    with rasterio.open(image_path) as src:
+        # Get the raster's affine transformation matrix (maps pixel indices to geographic coordinates)
+        transform = src.transform
+        
+        # Get the image shape
+        rows, cols = src.height, src.width
+        
+        # Convert the 1D pixel indices to 2D row, col indices (assuming selected_pixels are flattened)
+        row_col_indices = np.unravel_index(selected_pixels, (rows, cols))
+        rows_selected = row_col_indices[0]
+        cols_selected = row_col_indices[1]
+        
+        # Calculate geographic coordinates using the transform
+        coordinates = []
+        for row, col in zip(rows_selected, cols_selected):
+            # Use the affine transformation to convert (row, col) to geographic (x, y) coordinates
+            x, y = rasterio.transform.xy(transform, row, col)
+            coordinates.append((x, y))  # Append the geographic coordinate (e.g., lon, lat or x, y)
+    
+    return coordinates
