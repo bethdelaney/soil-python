@@ -35,7 +35,9 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
     # Step 2: Compute Mahalanobis distance to the center
     center = np.mean(X_scaled, axis=0)
     cov_matrix = np.cov(X_scaled, rowvar=False)
-    inv_cov_matrix = np.linalg.inv(cov_matrix)
+    
+    # Use the pseudoinverse to handle cases where the covariance matrix is singular
+    inv_cov_matrix = np.linalg.pinv(cov_matrix)
     
     mahal_distances = np.array([mahalanobis_distance(sample, center, inv_cov_matrix) for sample in X_scaled])
     
