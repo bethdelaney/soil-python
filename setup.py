@@ -8,7 +8,7 @@ setup(
         'numpy',
         'scipy',
         'scikit-learn',
-        'raseterio',
+        'rasterio',
         'matplotlib'
     ],
     author='Beth Delaney',
