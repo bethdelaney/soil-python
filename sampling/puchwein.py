@@ -159,7 +159,7 @@ def plot_pca(X, selected_pixels, n_components=2):
     # Show the plot
     plt.show()
 
-def get_sample_coordinates(selected_pixels, image_path):
+def get_coords(selected_pixels, image_path):
     """
     Get the geographic coordinates (e.g., lat/lon) of the selected sample points.
     
