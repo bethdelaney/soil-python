@@ -7,8 +7,8 @@ setup(
     install_requires=[
         'numpy',
         'scipy',
-        'scikit-learn'
-        'raseterio'
+        'scikit-learn',
+        'raseterio',
         'matplotlib'
     ],
     author='Beth Delaney',
