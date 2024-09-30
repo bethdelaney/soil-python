@@ -12,7 +12,7 @@ setup(
     author='Beth Delaney',
     author_email='beth_delaney@outlook.com',
     description='Python implementation of the Puchwein algorithm for selecting calibration samples',
-    url='https://github.com/your-github-repo',
+    url='https://github.com/bethdelaney/soil-python.git',
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
