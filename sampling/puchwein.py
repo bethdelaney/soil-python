@@ -1,6 +1,10 @@
 """
-Module for applying the Puchwein Algorithm to spectral data to derive sample calibration points. 
-Includes visualiation of PCA and extraction of GPS coordinates of those sample points.
+Module for applying the Puchwein Algorithm to spectral data to derive sample calibration points.
+
+Applies Principal Component Analysis (PCA) to reduce dimensionality.
+Computes Mahalanobis distances for sample selection.
+Uses Euclidean distances to ensure diversity in the selected sample set.
+Includes functionality to display selected data and retrieve the coordinates of selected sample locations.
 """
 
 import rasterio
