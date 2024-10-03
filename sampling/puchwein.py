@@ -21,7 +21,7 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
     if min_sel >= X.shape[0]:
         raise ValueError("min_sel must be lower than the number of rows in X")
     
-    # Step 1: PCA with centering and scaling
+    # PCA with centering and scaling
     pca = PCA(n_components=X.shape[1])
     X_transformed = pca.fit_transform(X)
     
@@ -39,7 +39,7 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
     # Scale the principal components
     X_scaled = X_reduced / np.std(X_reduced, axis=0)
     
-    # Step 2: Compute Mahalanobis distance to the center
+    # Compute Mahalanobis distance to the center
     center = np.mean(X_scaled, axis=0)
     cov_matrix = np.cov(X_scaled, rowvar=False)
     
@@ -80,7 +80,7 @@ def puchwein(X, pc=0.95, k=0.2, min_sel=5, details=False, center=True, scale=Fal
             break
         m += 1
     
-    # Step 3: Compute leverage and optimize
+    # Compute leverage and optimise
     X_matrix = X_scaled
     leverage = np.diag(X_matrix @ np.linalg.inv(X_matrix.T @ X_matrix) @ X_matrix.T)
     observed_leverage = [np.sum(leverage[selected]) for selected in all_selected_loops]
@@ -129,17 +129,17 @@ def plot_pca(X, selected_pixels, n_components=2):
     - n_components: Number of PCA components to compute (default is 2)
     """
     
-    # Step 1: Run PCA
+    # Run PCA
     pca = PCA(n_components=n_components)
     X_transformed = pca.fit_transform(X)  # PCA-transformed data
     
-    # Step 2: Reduce to the first two components for plotting
+    # Reduce to the first two components for plotting
     X_reduced = X_transformed[:, :2]  # Use the first two components (PC1 and PC2)
     
-    # Step 3: Plot all samples
+    # Plot all samples
     plt.scatter(X_reduced[:, 0], X_reduced[:, 1], color='gray', label='All Samples')
     
-    # Step 4: Highlight the selected samples
+    # Highlight the selected samples
     X_selected = X_reduced[selected_pixels]
     plt.scatter(X_selected[:, 0], X_selected[:, 1], color='red', label='Selected Samples')
     
